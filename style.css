@@ -1,0 +1,389 @@
+:root {
+    --bg-color: #0f172a;
+    --panel-bg: rgba(30, 41, 59, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    
+    --p1-color: #3b82f6;
+    --p1-glow: rgba(59, 130, 246, 0.5);
+    
+    --p2-color: #ef4444;
+    --p2-glow: rgba(239, 68, 68, 0.5);
+    
+    --p3-color: #10b981;
+    --p3-glow: rgba(16, 185, 129, 0.5);
+    
+    --accent-color: #8b5cf6;
+    --accent-hover: #7c3aed;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(239, 68, 68, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.app-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    height: 95vh;
+    padding: 20px;
+    gap: 30px;
+}
+
+/* --- GLASSMORPHISM PANELS --- */
+.player-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.player-panel.active {
+    transform: translateY(-5px);
+}
+
+.player-1 { border-top: 4px solid var(--p1-color); }
+.player-1.active { box-shadow: 0 0 30px var(--p1-glow); }
+
+.player-2 { border-top: 4px solid var(--p2-color); }
+.player-2.active { box-shadow: 0 0 30px var(--p2-glow); }
+
+.player-3 { border-top: 4px solid var(--p3-color); }
+.player-3.active { box-shadow: 0 0 30px var(--p3-glow); }
+
+.player-1 { width: 280px; }
+.right-panels { 
+    width: 280px; 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.right-panels .player-panel { height: 50%; }
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.player-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.player-1 h2 { color: var(--p1-color); }
+.player-2 h2 { color: var(--p2-color); }
+.player-3 h2 { color: var(--p3-color); }
+
+.turn-indicator {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+    100% { opacity: 0.6; transform: scale(1); }
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+/* --- ITEM LISTS --- */
+.item-list {
+    list-style: none;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 5px;
+}
+
+.item-list::-webkit-scrollbar {
+    width: 6px;
+}
+.item-list::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+.item-list::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.won-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 500;
+    animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform: translateX(-20px);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+}
+
+.won-item::before {
+    content: "✨";
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+@keyframes slideIn {
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* --- MAIN WHEEL SECTION --- */
+.wheel-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.highlight {
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.1);
+}
+
+/* --- THE WHEEL --- */
+.wheel-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin-bottom: 40px;
+    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
+    transition: filter 0.3s ease;
+}
+
+.wheel-container.spinning {
+    filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.6));
+}
+
+#wheel-canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    /* The actual rotation happens via JS inline style during spin */
+    transition: transform cubic-bezier(0.2, 0.8, 0.1, 1);
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+    background: #1e293b; /* Fallback */
+}
+
+/* The fixed pointer indicating the winner */
+.pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 50px;
+    background: linear-gradient(to bottom, #f8fafc, #cbd5e1);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    z-index: 10;
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+}
+
+.pointer::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: var(--bg-color);
+    border-radius: 50%;
+}
+
+/* --- CONTROLS --- */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-height: 120px;
+}
+
+.btn {
+    font-family: inherit;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 18px 48px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    color: white;
+    box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.5);
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px -5px rgba(139, 92, 246, 0.6);
+}
+
+.primary-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 10px -5px rgba(139, 92, 246, 0.4);
+}
+
+.primary-btn:disabled {
+    background: #475569;
+    color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Button shine effect */
+.primary-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.primary-btn:hover::after {
+    left: 100%;
+    opacity: 1;
+    transition: left 0.7s ease-in-out;
+}
+
+.result-message {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 1200px) {
+    .app-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        gap: 40px;
+    }
+    
+    .player-1, .right-panels {
+        width: 100%;
+        height: auto;
+    }
+    
+    .right-panels {
+        flex-direction: row;
+    }
+    
+    .right-panels .player-panel {
+        width: 50%;
+    }
+    
+    .item-list {
+        min-height: 150px;
+        max-height: 250px;
+    }
+    
+    .wheel-section {
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .wheel-container {
+        width: 350px;
+        height: 350px;
+    }
+    
+    .right-panels {
+        flex-direction: column;
+    }
+    
+    .right-panels .player-panel {
+        width: 100%;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+}

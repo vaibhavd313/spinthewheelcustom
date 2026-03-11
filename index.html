@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin the Wheel - 3 Players</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Player 1 Panel -->
+        <aside class="player-panel player-1">
+            <div class="player-header">
+                <h2>Player 1</h2>
+                <div class="turn-indicator">Turn</div>
+            </div>
+            <ul class="item-list" id="list-1">
+                <!-- Items won by Player 1 will appear here -->
+            </ul>
+        </aside>
+
+        <!-- Main Wheel Area -->
+        <main class="wheel-section">
+            <header>
+                <h1>Wheel of Fortune</h1>
+                <p>Current Turn: <span id="current-turn-display" class="highlight">Player 1</span></p>
+            </header>
+            
+            <div class="wheel-container">
+                <div class="pointer"></div>
+                <canvas id="wheel-canvas" width="500" height="500"></canvas>
+            </div>
+            
+            <div class="controls">
+                <button id="spin-btn" class="btn primary-btn">SPIN THE WHEEL</button>
+                <div id="result-display" class="result-message hidden">
+                    <span id="winner-text"></span> won <strong id="won-item"></strong>!
+                </div>
+            </div>
+
+            <!-- Player 2 Panel (Mobile/Bottom Layout Fallback, or Grid Layout) -->
+            <!-- Note: Layout handles placement, but logically we have 3 distinct panels -->
+        </main>
+
+        <!-- Player 2 and 3 Panels -->
+        <div class="right-panels">
+            <aside class="player-panel player-2">
+                <div class="player-header">
+                    <h2>Player 2</h2>
+                    <div class="turn-indicator hidden">Turn</div>
+                </div>
+                <ul class="item-list" id="list-2"></ul>
+            </aside>
+            
+            <aside class="player-panel player-3">
+                <div class="player-header">
+                    <h2>Player 3</h2>
+                    <div class="turn-indicator hidden">Turn</div>
+                </div>
+                <ul class="item-list" id="list-3"></ul>
+            </aside>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

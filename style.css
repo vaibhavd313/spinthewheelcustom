@@ -302,6 +302,26 @@ header h1 {
     box-shadow: none;
 }
 
+.secondary-btn {
+    background: transparent;
+    border: 2px solid var(--text-secondary);
+    color: var(--text-secondary);
+    font-size: 1rem;
+    padding: 12px 30px;
+    margin-top: 10px;
+}
+
+.secondary-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.secondary-btn:active {
+    transform: translateY(1px);
+}
+
 /* Button shine effect */
 .primary-btn::after {
     content: '';
